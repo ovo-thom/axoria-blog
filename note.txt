@@ -1,0 +1,4 @@
+** @apply dans le css **
+
+Permet d'écrire directement dans le fichier css du tailwind et ensuite appeler par le nom dans le className.
+
