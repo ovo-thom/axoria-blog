@@ -2,3 +2,13 @@
 
 Permet d'écrire directement dans le fichier css du tailwind et ensuite appeler par le nom dans le className.
 
+** new Formdata(e.target) ** 
+
+C'est un objet spécial en javascript qui permet de stocké les valeurs d'un input d'un formulaire et aussi (img, vidéo, zip,...)
+
+On ne sait pas le log, pour voir le contenu de l'objet on itère dedans :
+
+for(const [key, value] of formData.entries()) {
+        console.log(key,value);
+    }
+
