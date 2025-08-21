@@ -19,9 +19,26 @@ export default function page() {
     const result = await addPost(formData);
   }
 
-  function handleAddTag() {}
+  function handleAddTag() {
 
-  function handleRemoveTag() {}
+    const newTag = tagInputRef.current.value.trim().toLowerCase()
+
+    if(newTag !== "" && !tags.includes(newTag) && tags.length <= 4) {
+      setTags([...tags, newTag])
+      tagInputRef.current.value = ""
+    }
+  }
+
+  function handleRemoveTag(tagToRemove) {
+   setTags(tags.filter(tag => tag !== tagToRemove))
+  }
+
+  function handleEnterOnTagInput(e) {
+    if(e.key === "Enter") {
+      e.preventDefault()
+      handleAddTag()
+    }
+  }
 
   return (
     <main className="u-main-container bg-white p-7 mt-32 mb-44">
@@ -51,6 +68,7 @@ export default function page() {
               id="tag"
               placeholder="Add a tag"
               ref={tagInputRef}
+              onKeyDown={handleEnterOnTagInput}
             />
             <button
               type="button"
