@@ -3,13 +3,14 @@ import { addPost } from "@/lib/serverActions/blog/postServerActions";
 import { useState, useRef } from "react";
 
 export default function page() {
-  const [tags, setTags] = useState(["css", "javascript"]);
+  const [tags, setTags] = useState([]);
   const tagInputRef = useRef(null);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData(e.target);
+    formData.set("tags", JSON.stringify(tags));
     console.log(formData);
 
     for (const [key, value] of formData.entries()) {
@@ -20,23 +21,22 @@ export default function page() {
   }
 
   function handleAddTag() {
+    const newTag = tagInputRef.current.value.trim().toLowerCase();
 
-    const newTag = tagInputRef.current.value.trim().toLowerCase()
-
-    if(newTag !== "" && !tags.includes(newTag) && tags.length <= 4) {
-      setTags([...tags, newTag])
-      tagInputRef.current.value = ""
+    if (newTag !== "" && !tags.includes(newTag) && tags.length <= 4) {
+      setTags([...tags, newTag]);
+      tagInputRef.current.value = "";
     }
   }
 
   function handleRemoveTag(tagToRemove) {
-   setTags(tags.filter(tag => tag !== tagToRemove))
+    setTags(tags.filter((tag) => tag !== tagToRemove));
   }
 
   function handleEnterOnTagInput(e) {
-    if(e.key === "Enter") {
-      e.preventDefault()
-      handleAddTag()
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAddTag();
     }
   }
 
