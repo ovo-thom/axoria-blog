@@ -26,7 +26,10 @@ export default async function Home() {
       <p className="text-md text-zinc-900">Latest articles</p>
       <ul className="u-articles-grid">
         {posts.map((post, id) => (
-          <li key={id} className="rounded-sm shadow-md hover:shadow-xl border hover:border-zinc-300">
+          <li
+            key={id}
+            className="rounded-sm shadow-md hover:shadow-xl border hover:border-zinc-300"
+          >
             <div className="pt-5 px-5 pb-7">
               <div className="flex items-baseline gap-x-4 text-xs">
                 <time
@@ -46,7 +49,12 @@ export default async function Home() {
                   {post.author}
                 </Link>
               </div>
-              <Link href={`/article/${post.title}`} className="inline-block mt-6 text-xl font-semibold text-zinc-800 hover:text-zinc-600">{post.title}</Link>
+              <Link
+                href={`/article/${post.title}`}
+                className="inline-block mt-6 text-xl font-semibold text-zinc-800 hover:text-zinc-600"
+              >
+                {post.title}
+              </Link>
             </div>
           </li>
         ))}

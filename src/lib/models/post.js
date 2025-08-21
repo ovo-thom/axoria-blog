@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { unique } from "next/dist/build/utils";
+// import { unique } from "next/dist/build/utils";
 import slugify from "slugify";
 
 
@@ -33,9 +33,9 @@ postSchema.pre("save", async function(next) {
         }
 
         this.slug = slugCandidate
-        console.log("Final slug", slugCandidate);
-        
+        console.log("Final slug :", slugCandidate);
     }
+    next()
 })
 
 export const Post = mongoose.models?.Post || mongoose.model("Post", postSchema);
