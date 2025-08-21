@@ -1,23 +1,28 @@
-import { connectToDB } from "@/lib/utils/db/connectToDB";
 import Link from "next/link";
+import { connectToDB } from "@/lib/utils/db/connectToDB";
+import { getPosts } from "@/lib/serverMethods/blog/postMethods";
 
-const posts = [
-  {
-    author: "John Doe",
-    title: "5 CSS tricks",
-  },
-  {
-    author: "Victor Wallace",
-    title: "How to code a navbar",
-  },
-  {
-    author: "Bruce Willis",
-    title: "How to setup Typescript",
-  },
-];
+// const posts = [
+//   {
+//     author: "John Doe",
+//     title: "5 CSS tricks",
+//   },
+//   {
+//     author: "Victor Wallace",
+//     title: "How to code a navbar",
+//   },
+//   {
+//     author: "Bruce Willis",
+//     title: "How to setup Typescript",
+//   },
+// ];
 
 export default async function Home() {
   await connectToDB();
+
+  const posts = await getPosts()
+  console.log("=== AXORIA LOG ===", posts);
+  
   return (
     <div className="u-main-container u-padding-content-container">
       <h1 className="t-main-title">Stay up to date with AXORIA</h1>
@@ -43,14 +48,14 @@ export default async function Home() {
                   })}
                 </time>
                 <Link
-                  href={`/categories/author/${post.author}`}
+                  href={`/categories/author/johndoe`}
                   className="ml-auto text-base text-gray-700 hover:text-gray-600 whitespace-nowrap truncate"
                 >
-                  {post.author}
+                  John Doe
                 </Link>
               </div>
               <Link
-                href={`/article/${post.title}`}
+                href={`/article/${post.slug}`}
                 className="inline-block mt-6 text-xl font-semibold text-zinc-800 hover:text-zinc-600"
               >
                 {post.title}
