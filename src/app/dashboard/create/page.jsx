@@ -1,10 +1,14 @@
 "use client";
 import { addPost } from "@/lib/serverActions/blog/postServerActions";
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const [tags, setTags] = useState([]);
+  const router = useRouter();
   const tagInputRef = useRef(null);
+  const submitButtonRef = useRef(null);
+  const serverValidationText = useRef(null);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -17,7 +21,34 @@ export default function page() {
       console.log(key, value);
     }
 
-    const result = await addPost(formData);
+    serverValidationText.current.textContent = "";
+    submitButtonRef.current.textContent = "Saving Post ...";
+    submitButtonRef.current.disabled = true;
+
+    try {
+      const result = await addPost(formData);
+
+      if (result.success) {
+        submitButtonRef.current.textContent = "Post Saved ✅";
+      }
+
+      let countdown = 3;
+      serverValidationText.current.textContent = `Redirecting in ${countdown}...`;
+
+      const interval = setInterval(() => {
+        countdown -= 1;
+        serverValidationText.current.textContent = `Redirecting in ${countdown}...`;
+        
+        if (countdown === 0) {
+          clearInterval(interval);
+          router.push(`/article/${result.slug}`);
+        }
+      }, 1000);
+    } catch (error) {
+      submitButtonRef.current.textContent = "Submit";
+      serverValidationText.current.textContent = `${error.message}`;
+      submitButtonRef.current.disabled = false;
+    }
   }
 
   function handleAddTag() {
@@ -116,9 +147,13 @@ export default function page() {
           className="min-h-44 text-xl shadow appearance-none border rounded w-full p-8 text-gray-700 mb-4 focus:outline-slate-400"
         ></textarea>
 
-        <button className="min-w-44 bg-indigo-500 text-white font-bold py-3 px-4 rounded border-none mb-4">
+        <button
+          ref={submitButtonRef}
+          className="min-w-44 bg-indigo-500 text-white font-bold py-3 px-4 rounded border-none mb-4"
+        >
           Submit
         </button>
+        <p ref={serverValidationText}></p>
       </form>
     </main>
   );
