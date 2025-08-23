@@ -13,6 +13,12 @@ export default function Navbar() {
         <Link href="/dashboard/create" className="mx-2 text-zinc-900">
           Add an article
         </Link>
+        <Link href="/signin" className="mx-2 text-zinc-900">
+          Sign In
+        </Link>
+        <Link href="/signup" className="mx-2 text-zinc-900">
+          Sign Up
+        </Link>
       </div>
     </nav>
   );
