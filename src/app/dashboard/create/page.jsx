@@ -38,7 +38,7 @@ export default function page() {
       const interval = setInterval(() => {
         countdown -= 1;
         serverValidationText.current.textContent = `Redirecting in ${countdown}...`;
-        
+
         if (countdown === 0) {
           clearInterval(interval);
           router.push(`/article/${result.slug}`);

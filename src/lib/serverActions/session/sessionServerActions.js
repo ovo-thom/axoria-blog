@@ -1,5 +1,8 @@
+"use server";
 import { User } from "@/lib/models/user";
 import { connectToDB } from "@/lib/utils/db/connectToDB";
+import slugify from "slugify";
+import bcrypt from "bcryptjs";
 
 export async function register(formData) {
   const { userName, email, password, passwordRepeat } =
@@ -25,13 +28,13 @@ export async function register(formData) {
       throw new Error("Username already exists");
     }
 
-    const normalizeUserName = slugify(userName, { lower: true, strict: true });
+    const normalizedUserName = slugify(userName, { lower: true, strict: true });
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
       userName,
-      normalizeUserName,
+      normalizedUserName,
       email,
       password: hashedPassword,
     });
@@ -40,10 +43,12 @@ export async function register(formData) {
 
     console.log("saved to db");
 
-    return { succes: true };
+    return { success: true };
   } catch (error) {
-    console.log("Error while signin up the user :", err);
+    console.log("Error while signin up the user :", error);
 
-    throw new Error(err.message || "An error occured while signin up the user");
+    throw new Error(
+      error.message || "An error occured while signin up the user"
+    );
   }
 }
