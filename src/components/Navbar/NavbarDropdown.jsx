@@ -15,6 +15,23 @@ export default function NavbarDropdown() {
 
   function handleLogout() {}
 
+  function closeDropdown() {
+    setIsOpen(false);
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (!dropdownRef.current.contains(event.target)) {
+        closeDropdown();
+      }
+    }
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div ref={dropdownRef} className="relative">
       <button onClick={toggleDropdown} className="flex">
@@ -23,7 +40,11 @@ export default function NavbarDropdown() {
       {isOpen && (
         <ul className="absolute right-0 top-10 w-[250px] border-b border-x border-zinc-300">
           <li className="bg-slate-50 hover:bg-slate-200 border-b border-slate-300">
-            <Link href="/dashboard" className="block p-4">
+            <Link
+              onClick={closeDropdown}
+              href="/dashboard"
+              className="block p-4"
+            >
               Dashboard
             </Link>
           </li>
