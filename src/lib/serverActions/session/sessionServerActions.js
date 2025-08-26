@@ -101,10 +101,30 @@ export async function login(formData) {
     });
 
     return { success: true };
-    
   } catch (error) {
     console.log("Error while log in", error);
 
     throw new Error(error.message);
+  }
+}
+
+export async function logOut() {
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get("sessionId")?.value;
+
+  try {
+    await Session.findByIdAndDelete(sessionId);
+
+    cookieStore.set("sessionId", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 0, // supprime immédiatement le cookie
+      sameSite: "strict",
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.log(error);
   }
 }
