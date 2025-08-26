@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { sessionInfo } from "@/lib/serverMethods/session/sessionMethods";
+import NavbarDropdown from "./NavbarDropdown";
 
 export default async function Navbar() {
   const session = await sessionInfo();
@@ -16,10 +17,12 @@ export default async function Navbar() {
         </Link>
 
         {session.success ? (
-          <Link href="/dashboard/create" className="mx-2 text-zinc-900">
-            Add an article
-          </Link>
-          // <NavbarDropdown />
+          <>
+            <Link href="/dashboard/create" className="mx-2 text-zinc-900">
+              Add an article
+            </Link>
+            <NavbarDropdown />
+          </>
         ) : (
           <>
             <Link href="/signin" className="mx-2 text-zinc-900">
