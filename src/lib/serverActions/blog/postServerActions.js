@@ -93,11 +93,11 @@ export async function addPost(formData) {
 
     return { success: true, slug: savedPost.slug };
   } catch (error) {
-    console.error("Error while creating the post", error)
+    console.error("Error while creating the post", error);
 
-    if(error instanceof AppError) {
-      throw error
+    if (error instanceof AppError) {
+      throw error;
     }
-    throw new Error("An error occured while creating the post")
+    throw new Error("An error occured while creating the post");
   }
 }
